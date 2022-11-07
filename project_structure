@@ -1,0 +1,17 @@
+.
+├── LICENSE
+├── README.md
+├── app.ts
+├── mongo.ts
+├── package.json
+├── project_structure
+├── server.ts
+└── src
+    ├── __test__
+    ├── controllers
+    ├── middlewares
+    ├── models
+    ├── routes
+    └── services
+
+7 directories, 7 files
