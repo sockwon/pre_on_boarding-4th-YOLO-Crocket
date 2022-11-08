@@ -36,4 +36,4 @@ const createApp = () => {
  * @public
  */
 
-module.exports = { createApp };
+export { createApp };
