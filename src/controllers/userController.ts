@@ -3,9 +3,9 @@ dotenv.config();
 
 import { UserInputDTO } from "../interfaces/IUser";
 import { createUser } from "../services/userService";
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import { passwordToHash } from "../middlewares/password";
-import Joi from "joi";
+import Joi, { object } from "joi";
 
 const schema = Joi.object({
   email: Joi.string()
@@ -28,9 +28,11 @@ const signup = async (req: Request, res: Response) => {
 
   //패스워드 암호화
   data.password = await passwordToHash(password);
-  await createUser(data);
+  const result = await createUser(data);
 
-  res.status(201).json({ message: "success" });
+  if (typeof result === "object") {
+    res.status(201).json({ message: "success" });
+  }
 };
 
 export default { signup };

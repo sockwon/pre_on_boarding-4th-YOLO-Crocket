@@ -3,7 +3,7 @@ import { UserInputDTO } from "../interfaces/IUser";
 
 const createUser = async (data: UserInputDTO) => {
   const user = new User(data);
-  user.save();
+  return user.save();
 };
 
 export { createUser };
