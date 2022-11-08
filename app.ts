@@ -5,7 +5,7 @@
 import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import morgan from "morgan";
-//  import routes from "./src/routes";
+import routes from "./src/routes";
 
 /**
  * Create an express application.
@@ -27,7 +27,7 @@ const createApp = () => {
     next();
   });
 
-  //   app.use(routes);
+  app.use(routes);
   return app;
 };
 
