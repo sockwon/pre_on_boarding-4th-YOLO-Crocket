@@ -8,7 +8,7 @@ import { Request, Response } from "express";
 const signUpControll = async (req: Request, res: Response) => {
   const { email, password, phone, name }: UserInputDTO = req.body;
   const data = { email, password, phone, name };
-
+  console.log(req.body.user);
   const result = await userService.createUser(data);
 
   if (typeof result === "object") {

@@ -9,7 +9,7 @@ import { Request, Response, NextFunction } from "express";
 const errorHandlerAsync = (func: Function) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await func(req, res);
+      await func(req, res, next);
     } catch (err: any) {
       let message: any;
       if (err instanceof Error) {
