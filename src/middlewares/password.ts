@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import bcrypt from "bcrypt";
+import { erorrGenerator } from "./errorGenerator";
 
 const getSalt = (saltRound: number): number => {
   const salt = bcrypt.genSalt(saltRound);
@@ -14,8 +15,9 @@ const passwordToHash = async (password: string): Promise<string> => {
   return hashed;
 };
 
-// const isRightPassword = async(inputPassword: string)=>{
-//     const result = await bcrypt.compare()
-// }
+const isRightPassword = async (inputPassword: string, userPassword: string) => {
+  const result = await bcrypt.compare(inputPassword, userPassword);
+  return result;
+};
 
-export { passwordToHash };
+export { passwordToHash, isRightPassword };

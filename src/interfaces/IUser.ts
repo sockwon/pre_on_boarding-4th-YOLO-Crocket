@@ -12,6 +12,11 @@ export interface UserInputDTO {
   phone: string;
 }
 
+export interface UserLogIn {
+  email: string;
+  password: string;
+}
+
 export interface UserSearchInput {
   email: string;
 }

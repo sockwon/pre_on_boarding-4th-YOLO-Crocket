@@ -3,7 +3,6 @@ dotenv.config();
 
 import request from "supertest";
 import { createApp } from "../../app";
-import dbConnect from "../../mongo";
 import mongoose from "mongoose";
 import { describe, test, expect, beforeAll, afterAll } from "@jest/globals";
 
@@ -28,9 +27,19 @@ describe("user", () => {
         name: "fkfkfk",
         phone: "1112222339",
         email: "092ws4uto@nnavver.com",
-        password: "password11",
+        password: "password11!",
       })
       .expect(201)
       .expect({ message: "success" });
+  });
+
+  test("로그인: 성공", async () => {
+    await request(app)
+      .post("/api/v1/user/login")
+      .send({
+        email: "092ws4uto@nnavver.com",
+        password: "password11!",
+      })
+      .expect(200);
   });
 });
