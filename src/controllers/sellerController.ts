@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import { SellerInputDTO, Seller } from "../interfaces/ISeller";
+import { ProductInputDTO } from "../interfaces/IProduct";
 import { IVeryfied } from "../interfaces/IToken";
 import sellerService from "../services/sellerService";
 import { Request, Response } from "express";
@@ -18,4 +19,32 @@ const sellerCreateControll = async (req: Request, res: Response) => {
   res.status(201).json(result);
 };
 
-export default { sellerCreateControll };
+const productCreateController = async (req: Request, res: Response) => {
+  const {
+    product_name,
+    category,
+    price,
+    description,
+    order_deadline,
+    nation,
+  }: ProductInputDTO = req.body;
+
+  const sellerId = req.body.user.id;
+
+  const data = {
+    product_name,
+    category,
+    price,
+    description,
+    order_deadline,
+    nation,
+    sellerId,
+  };
+
+  const result = await sellerService.createProduct(data);
+  console.log(result);
+
+  res.status(201).json(result);
+};
+
+export default { sellerCreateControll, productCreateController };
