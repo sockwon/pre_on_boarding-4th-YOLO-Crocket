@@ -4,10 +4,12 @@ dotenv.config();
 import request from "supertest";
 import { createApp } from "../../app";
 import mongoose from "mongoose";
+import tokenFn from "../middlewares/token";
 import { describe, test, expect, beforeAll, afterAll } from "@jest/globals";
 
 describe("user", () => {
   let app: any;
+  let token: string;
   beforeAll(async () => {
     app = createApp();
     await mongoose

@@ -56,7 +56,6 @@ const logIn = async (input: UserLogIn) => {
     if (isUser === false) {
       erorrGenerator(400, "잘못된 비밀번호");
     }
-    console.log(typeof user);
     return tokenFn.createToken(user);
   }
 };

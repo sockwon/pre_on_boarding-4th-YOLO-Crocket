@@ -2,6 +2,8 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import jwt from "jsonwebtoken";
+import { erorrGenerator } from "./errorGenerator";
+import { Request, Response, NextFunction } from "express";
 
 const createToken = (user: any) => {
   const tokenKey = process.env.JWT_SECRET || "";
@@ -12,7 +14,7 @@ const createToken = (user: any) => {
     email: user["email"],
     phone: user["phone"],
     name: user["name"],
-
+    seller: user["seller"],
     //mongoDB 의 ObjectId 는 token 을 만들 수 없다. json 으로 변환하여 토큰을 제작.
     id: user["_id"].toJSON(),
   };
@@ -25,4 +27,17 @@ const createToken = (user: any) => {
   return token;
 };
 
-export default { createToken };
+const auth = async (req: Request, res: Response, next: NextFunction) => {
+  const accessToken = req.headers.authorization || null;
+  const secretKey: string = process.env.JWT_SECRET || "none";
+
+  if (accessToken === null) {
+    erorrGenerator(400, "토큰 없음");
+  } else {
+    const veryfied = jwt.verify(accessToken, secretKey);
+    req.body.user = veryfied;
+    next();
+  }
+};
+
+export default { createToken, auth };
