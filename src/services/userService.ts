@@ -28,11 +28,6 @@ const schemaLogin = Joi.object({
   password: Joi.string().required(),
 });
 
-const findUser = async (inputEmail: string) => {
-  const result = await User.findOne({ email: inputEmail }).exec();
-  return result;
-};
-
 const createUser = async (input: UserInputDTO) => {
   await schemaSignUp.validateAsync(input);
 
@@ -46,7 +41,7 @@ const createUser = async (input: UserInputDTO) => {
 const logIn = async (input: UserLogIn) => {
   await schemaLogin.validateAsync(input);
 
-  const user = await findUser(input.email);
+  const user = await userDao.findUserDao(input.email);
 
   if (user === null) {
     erorrGenerator(400, "등록되지 않은 사용자");
@@ -60,4 +55,4 @@ const logIn = async (input: UserLogIn) => {
   }
 };
 
-export default { createUser, findUser, logIn };
+export default { createUser, logIn };
