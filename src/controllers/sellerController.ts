@@ -2,10 +2,11 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import { SellerInputDTO, Seller } from "../interfaces/ISeller";
-import { ProductInputDTO } from "../interfaces/IProduct";
+import { ProductInputDTO, ProductUpdate } from "../interfaces/IProduct";
 import { IVeryfied } from "../interfaces/IToken";
 import sellerService from "../services/sellerService";
 import { Request, Response } from "express";
+import { erorrGenerator } from "../middlewares/errorGenerator";
 
 const sellerCreateControll = async (req: Request, res: Response) => {
   const { seller_name, account, bank, contact }: SellerInputDTO = req.body;
@@ -19,7 +20,7 @@ const sellerCreateControll = async (req: Request, res: Response) => {
   res.status(201).json(result);
 };
 
-const productCreateController = async (req: Request, res: Response) => {
+const productCreateControll = async (req: Request, res: Response) => {
   const {
     product_name,
     category,
@@ -29,7 +30,7 @@ const productCreateController = async (req: Request, res: Response) => {
     nation,
   }: ProductInputDTO = req.body;
 
-  const sellerId = req.body.user.id;
+  const userId = req.body.user.id;
 
   const data = {
     product_name,
@@ -38,13 +39,47 @@ const productCreateController = async (req: Request, res: Response) => {
     description,
     order_deadline,
     nation,
-    sellerId,
+    userId,
   };
 
   const result = await sellerService.createProduct(data);
-  console.log(result);
 
-  res.status(201).json(result);
+  if (result.modifiedCount) {
+    res.status(201).json({ message: "success" });
+  } else {
+    erorrGenerator(500);
+  }
 };
 
-export default { sellerCreateControll, productCreateController };
+const updateProductControll = async (req: Request, res: Response) => {
+  const {
+    product_name,
+    category,
+    price,
+    description,
+    order_deadline,
+    nation,
+  }: ProductUpdate = req.body;
+
+  const data = {
+    product_name,
+    category,
+    price,
+    description,
+    order_deadline,
+    nation,
+  };
+
+  const { productId } = req.params;
+  const { id } = req.body.user;
+
+  await sellerService.updateProduct(data, productId, id);
+
+  res.status(201).json({ massege: "success" });
+};
+
+export default {
+  sellerCreateControll,
+  productCreateControll,
+  updateProductControll,
+};

@@ -30,7 +30,6 @@ const createToken = (user: any) => {
 const auth = async (req: Request, res: Response, next: NextFunction) => {
   const accessToken = req.headers.authorization || null;
   const secretKey: string = process.env.JWT_SECRET || "none";
-
   if (accessToken === null) {
     erorrGenerator(400, "토큰 없음");
   } else {

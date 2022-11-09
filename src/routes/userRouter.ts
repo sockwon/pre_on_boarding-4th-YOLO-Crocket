@@ -5,9 +5,9 @@ import errorHandlerAsync from "../middlewares/errorHandler";
 import token from "../middlewares/token";
 
 const router = Router();
-router.use("/signup", errorHandlerAsync(userController.signUpControll));
-router.use("/login", errorHandlerAsync(userController.logInControll));
-router.use(
+router.post("/signup", errorHandlerAsync(userController.signUpControll));
+router.post("/login", errorHandlerAsync(userController.logInControll));
+router.post(
   "/seller",
   errorHandlerAsync(token.auth),
   errorHandlerAsync(sellerController.sellerCreateControll)

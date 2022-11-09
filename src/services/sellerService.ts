@@ -5,7 +5,7 @@ import { IVeryfied } from "../interfaces/IToken";
 import { UserOutPut } from "../interfaces/IUser";
 import Joi from "joi";
 import { erorrGenerator } from "../middlewares/errorGenerator";
-import { Product } from "../interfaces/IProduct";
+import { Product, ProductUpdate, ProductCreate } from "../interfaces/IProduct";
 
 const schemaSeller = Joi.object({
   seller_name: Joi.string().required(),
@@ -16,13 +16,13 @@ const schemaSeller = Joi.object({
 });
 
 const schemaProduct = Joi.object({
-  sellerId: Joi.required(),
   product_name: Joi.string().required(),
   category: Joi.string().required(),
   price: Joi.number().required(),
   description: Joi.string(),
   order_deadline: Joi.string().required(),
   nation: Joi.string().required(),
+  userId: Joi.string().required(),
 });
 
 const createSeller = async (data: Seller, user: IVeryfied) => {
@@ -39,9 +39,10 @@ const createSeller = async (data: Seller, user: IVeryfied) => {
   return result;
 };
 
-const createProduct = async (data: Product) => {
+const createProduct = async (data: ProductCreate) => {
   await schemaProduct.validateAsync(data);
-
+  const value = await sellerDao.findSellerByUserId(data.userId);
+  data.sellerId = value?._id;
   const product = await sellerDao.createProductDao(data);
 
   const market = await sellerDao.updateMarket(product.nation, product._id);
@@ -49,4 +50,23 @@ const createProduct = async (data: Product) => {
   return market;
 };
 
-export default { createSeller, createProduct };
+const updateProduct = async (
+  data: ProductUpdate,
+  productId: string,
+  userId: string
+) => {
+  const product = await sellerDao.findProductByProductId(productId);
+  const seller = await sellerDao.findSellerByUserId(userId);
+
+  if (!product) {
+    erorrGenerator(400, "없는 상품입니다");
+  }
+
+  if (JSON.stringify(product?.sellerId) !== JSON.stringify(seller?._id)) {
+    erorrGenerator(401);
+  }
+  const result = await sellerDao.updateProductDao(data, productId);
+  return result;
+};
+
+export default { createSeller, createProduct, updateProduct };
