@@ -1,4 +1,4 @@
 export interface Market {
   nation: string;
-  product_id: any[];
+  product_id?: any[];
 }
