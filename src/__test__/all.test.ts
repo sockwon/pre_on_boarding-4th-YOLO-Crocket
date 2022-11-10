@@ -6,10 +6,11 @@ import { createApp } from "../../app";
 import mongoose from "mongoose";
 import { describe, test, expect, beforeAll, afterAll } from "@jest/globals";
 
-describe("user", () => {
+describe("test", () => {
   let app: any;
   let token: string;
-  let id: string;
+  let productId: string;
+  let sellerId: string;
   beforeAll(async () => {
     app = createApp();
     await mongoose
@@ -85,17 +86,42 @@ describe("user", () => {
       .set({ Authorization: token });
     expect(result.status).toBe(201);
     expect(result.body.message).toBe("success");
-
-    console.log(result);
   });
 
-  // test("셀러 상품 수정: 성공", async () => {
-  //   await request(app)
-  //     .patch(`/api/v1/seller/product/${id}`)
-  //     .send({
-  //       price: 100,
-  //     })
-  //     .set({ Authorization: token })
-  //     .expect(201);
-  // });
+  test("상품 리스트 조회: 성공", async () => {
+    const result = await request(app)
+      .get("/api/v1/market/list")
+      .query({ inputText: "청바지" });
+
+    let a = result.body.result[0];
+    productId = a._id;
+    sellerId = a.sellerId;
+    expect(result.status).toBe(200);
+    expect(a.nation).toBe("미국");
+  });
+
+  test("셀러 상품 수정: 성공", async () => {
+    await request(app)
+      .patch(`/api/v1/seller/product/${productId}`)
+      .send({
+        price: 100,
+      })
+      .set({ Authorization: token })
+      .expect(201);
+  });
+
+  test("셀러 상품 상세 보기: 성공", async () => {
+    const result = await request(app).get(
+      `/api/v1/market/product/${productId}`
+    );
+    expect(result.status).toBe(200);
+    expect(result.body.result.price).toBe(100);
+  });
+
+  test("셀러 상품 삭제: 성공", async () => {
+    const result = await request(app)
+      .delete(`/api/v1/seller/product/${productId}`)
+      .set({ Authorization: token });
+    expect(result.status).toBe(204);
+  });
 });
