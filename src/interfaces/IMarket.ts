@@ -8,4 +8,5 @@ export interface getListInput {
   nation: string;
   inputText: string;
   sortType: string;
+  page: string;
 }
