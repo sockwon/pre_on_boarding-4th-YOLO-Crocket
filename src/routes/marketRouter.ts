@@ -11,4 +11,6 @@ router.get(
 
 router.post("/", errorHandlerAsync(marketController.marektCreateControll));
 
+router.get("/list", errorHandlerAsync(marketController.getListControll));
+
 export default router;
