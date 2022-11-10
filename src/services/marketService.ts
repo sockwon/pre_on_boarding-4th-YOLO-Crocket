@@ -12,6 +12,7 @@ const schemaGetList = Joi.object({
   category: Joi.string(),
   nation: Joi.string(),
   inputText: Joi.string(),
+  sortType: Joi.string(),
 });
 
 const createMarket = async (data: Market) => {

@@ -5,10 +5,6 @@ import User from "../models/User";
 import ProductModel from "../models/Product";
 import SellerModel from "../models/Seller";
 
-const findMarketByNation = async (nation: string) => {
-  return await Market.findOne({ nation: nation }).exec();
-};
-
 const findSellerByUserId = async (userId: string) => {
   return await SellerModel.findOne({ userId: userId }).exec();
 };

@@ -1,11 +1,10 @@
 import sellerDao from "../models/sellerDao";
 import userDao from "../models/userDao";
-import { SellerInputDTO, Seller } from "../interfaces/ISeller";
+import { Seller } from "../interfaces/ISeller";
 import { IVeryfied } from "../interfaces/IToken";
-import { UserOutPut } from "../interfaces/IUser";
 import Joi from "joi";
 import { erorrGenerator } from "../middlewares/errorGenerator";
-import { Product, ProductUpdate, ProductCreate } from "../interfaces/IProduct";
+import { ProductUpdate, ProductCreate } from "../interfaces/IProduct";
 
 const schemaSeller = Joi.object({
   seller_name: Joi.string().required(),
@@ -71,7 +70,7 @@ const updateProduct = async (
   const seller = await sellerDao.findSellerByUserId(userId);
 
   if (!product) {
-    erorrGenerator(400, "없는 상품입니다");
+    erorrGenerator(404, "없는 상품입니다");
   }
 
   if (JSON.stringify(product?.sellerId) !== JSON.stringify(seller?._id)) {
@@ -88,11 +87,11 @@ const softDeleteProduct = async (productId: string, userId: string) => {
   const seller = await sellerDao.findSellerByUserId(userId);
 
   if (!product) {
-    erorrGenerator(400, "없는 상품입니다");
+    erorrGenerator(404, "없는 상품입니다");
   }
 
   if (JSON.stringify(product?.sellerId) !== JSON.stringify(seller?._id)) {
-    erorrGenerator(401, "권한이 없습니다");
+    erorrGenerator(403, "권한이 없습니다");
   }
 
   return await sellerDao.softDeleteProductDao(productId);
