@@ -92,7 +92,7 @@ const softDeleteProduct = async (productId: string, userId: string) => {
   }
 
   if (JSON.stringify(product?.sellerId) !== JSON.stringify(seller?._id)) {
-    erorrGenerator(401);
+    erorrGenerator(401, "권한이 없습니다");
   }
 
   return await sellerDao.softDeleteProductDao(productId);
