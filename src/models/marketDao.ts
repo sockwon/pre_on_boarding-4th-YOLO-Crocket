@@ -1,3 +1,6 @@
+/**
+ * Module dependencies.
+ */
 import { Market, getListInput } from "../interfaces/IMarket";
 import MarketModel from "../models/Market";
 import ProductModel from "../models/Product";
@@ -13,7 +16,13 @@ const getProductDao = async (productId: string) => {
   return await ProductModel.findOne({ _id: productId, isdelete: false }).exec();
 };
 
+//상품 리스트 검색하기 dao. 본래 서비스 단에서 처리해야 하지만 시간이 없어서 리팩토링 하지 못했다.
 const getListDao = async (data: getListInput) => {
+  //아래의 처리는 타입스크립트의 요구를 충족하기 위해 작성됐다. 각각은 검색 및 정렬 옵션이다.
+  //url 에서 query 를 받아오면 그 값이 있거나 없다. if 문은 그 값이 있을 때 실행된다.
+  //값이 없다면 "" 또는 false 로 처리한다. 이와 같은 처리는 mongoose 를 오류 없이 실행 시키고
+  //타입스크립트의 요구를 충족하기 위함이다.
+
   if (data.inputText !== undefined) {
     data.inputText = JSON.parse(data.inputText);
   }
@@ -35,6 +44,8 @@ const getListDao = async (data: getListInput) => {
   const ca = data.category || "";
   const sortType = data.sortType || false;
 
+  //두 가지 정렬 타입이 있다. sortType 이 false 거나 없다면 기본 정렬 방식인 최신 등록순
+  //으로 한다. 만약 sortType 이 true 라면 order_deadline 이 빠른 순으로 정렬한다.
   if (sortType) {
     return await ProductModel.aggregate()
       .match({ isdelete: false })
@@ -54,4 +65,8 @@ const getListDao = async (data: getListInput) => {
   }
 };
 
+/**
+ * Module exports.
+ * @public
+ */
 export default { createMarketDao, getProductDao, getListDao };

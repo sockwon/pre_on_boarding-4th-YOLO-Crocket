@@ -16,6 +16,7 @@ export interface ErrorWithStatusCode extends Error {
   statusCode?: number;
 }
 
+//에러를 던질 때 사용한다. 에러를 만드는 역할을 한다.
 export const erorrGenerator = (statusCode: number, msg?: string): void => {
   const err: ErrorWithStatusCode = new Error(
     msg || DEFAULT_HTTP_STATUS_MESSAGES[statusCode]

@@ -1,9 +1,13 @@
+/**
+ * Module dependencies.
+ */
 import dotenv from "dotenv";
 dotenv.config();
 
 import marketService from "../services/marketService";
 import { Request, Response } from "express";
 
+//테스트에 필요한 마켓을 제작하는 컨트롤러. 데이터 유출입을 담당함.
 const marektCreateControll = async (req: Request, res: Response) => {
   const { nation, product_id } = req.body;
   const data = { nation, product_id };
@@ -11,6 +15,7 @@ const marektCreateControll = async (req: Request, res: Response) => {
   res.status(201).json({ message: "success" });
 };
 
+//상품 상세보기 컨트롤러. 데이터 유출입을 담당함.
 const getProductControll = async (req: Request, res: Response) => {
   const { productId } = req.params;
   const result = await marketService.getProduct(productId);
@@ -18,6 +23,7 @@ const getProductControll = async (req: Request, res: Response) => {
   res.status(200).json({ result });
 };
 
+//상품 리스트 검색 컨트롤러. 데이터 유출입을 담당함.
 const getListControll = async (req: Request, res: Response) => {
   const { inputText, category, nation, sortType } = req.query;
 
@@ -32,4 +38,8 @@ const getListControll = async (req: Request, res: Response) => {
   res.status(200).json({ result });
 };
 
+/**
+ * Module exports.
+ * @public
+ */
 export default { marektCreateControll, getProductControll, getListControll };
