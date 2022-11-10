@@ -160,13 +160,15 @@
 
 ### ERD
 
-![스크린샷 2022-11-07 오후 9.00.00.jpg](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c941b743-6edf-4706-8139-5d76154ebf53/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2022-11-07_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_9.00.00.jpg)
+<img width="500" alt="테스트 커버리지 스크린샷" src="https://user-images.githubusercontent.com/88824305/201111340-393a4362-7190-4849-bb1d-b82f9188da0e.jpg">
 
 ---
+
 
 ## API 명세
 
 [YOLO-Crocket](https://www.notion.so/8298a74918a148f2b123a76ca8654de8)
+</br>
 [포스트맨](https://documenter.getpostman.com/view/22555415/2s8YemuEcr)
 
 ---
