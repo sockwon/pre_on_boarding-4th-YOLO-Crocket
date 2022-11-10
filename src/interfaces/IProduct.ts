@@ -36,4 +36,5 @@ export interface ProductUpdate {
   description?: string;
   order_deadline?: Date;
   nation?: string;
+  isdelete?: boolean;
 }

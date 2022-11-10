@@ -14,4 +14,9 @@ router.patch(
   errorHandlerAsync(token.auth),
   errorHandlerAsync(sellerController.updateProductControll)
 );
+router.delete(
+  "/product/:productId",
+  errorHandlerAsync(token.auth),
+  errorHandlerAsync(sellerController.softDeleteControll)
+);
 export default router;
