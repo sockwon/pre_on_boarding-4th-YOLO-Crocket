@@ -39,11 +39,17 @@ const getListDao = async (data: getListInput) => {
     data.sortType = JSON.parse(data.sortType);
   }
 
+  if (data.page !== undefined) {
+    data.page = JSON.parse(data.page);
+  }
+
   const name = data.inputText || "";
   const na = data.nation || "";
   const ca = data.category || "";
   const sortType = data.sortType || false;
+  const page = +data.page;
 
+  const maxList = 2;
   //두 가지 정렬 타입이 있다. sortType 이 false 거나 없다면 기본 정렬 방식인 최신 등록순
   //으로 한다. 만약 sortType 이 true 라면 order_deadline 이 빠른 순으로 정렬한다.
   if (sortType) {
@@ -53,6 +59,15 @@ const getListDao = async (data: getListInput) => {
       .match({ nation: { $regex: na } })
       .match({ category: { $regex: ca } })
       .sort({ order_deadline: 1 })
+      .project({ _id: 0 })
+      .project({ sellerId: 0 })
+      .project({ description: 0 })
+      .project({ isdelete: 0 })
+      .project({ created_at: 0 })
+      .project({ updated_at: 0 })
+      .project({ __v: 0 })
+      .skip(maxList * (page - 1))
+      .limit(maxList)
       .exec();
   } else {
     return await ProductModel.aggregate()
@@ -61,6 +76,15 @@ const getListDao = async (data: getListInput) => {
       .match({ nation: { $regex: na } })
       .match({ category: { $regex: ca } })
       .sort({ updated_at: -1 })
+      .project({ _id: 0 })
+      .project({ sellerId: 0 })
+      .project({ description: 0 })
+      .project({ isdelete: 0 })
+      .project({ created_at: 0 })
+      .project({ updated_at: 0 })
+      .project({ __v: 0 })
+      .skip(maxList * (page - 1))
+      .limit(maxList)
       .exec();
   }
 };

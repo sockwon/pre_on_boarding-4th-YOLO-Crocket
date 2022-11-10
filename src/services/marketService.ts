@@ -16,6 +16,7 @@ const schemaGetList = Joi.object({
   nation: Joi.string(),
   inputText: Joi.string(),
   sortType: Joi.string(),
+  page: Joi.string(),
 });
 
 //테스트를 위해 만든 마켓 등록

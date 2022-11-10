@@ -25,13 +25,14 @@ const getProductControll = async (req: Request, res: Response) => {
 
 //상품 리스트 검색 컨트롤러. 데이터 유출입을 담당함.
 const getListControll = async (req: Request, res: Response) => {
-  const { inputText, category, nation, sortType } = req.query;
+  const { inputText, category, nation, sortType, page } = req.query;
 
   const data = {
     inputText: JSON.stringify(inputText),
     category: JSON.stringify(category),
     nation: JSON.stringify(nation),
     sortType: JSON.stringify(sortType),
+    page: JSON.stringify(page),
   };
 
   const result = await marketService.getList(data);
