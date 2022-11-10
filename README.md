@@ -186,7 +186,13 @@
 | 7 | 상품 상세 보기 | 200 | p |
 | 8 | 상품 리스트 조회 | 200 | p |
 
+<img width="500" alt="테스트 스크린샷" src="https://user-images.githubusercontent.com/88824305/201115572-67efcd6e-1696-4421-85cf-a5ccde7300c7.jpg">
+</br>
+<img width="500" alt="테스트 커버리지 스크린샷" src="https://user-images.githubusercontent.com/88824305/201115721-238b8bdb-40ca-4cdd-8870-7c40b5015ccb.jpg">
+
+
 ---
+
 
 ## 개발 프로세스
 
