@@ -6,6 +6,7 @@ import { createApp } from "../../app";
 import mongoose from "mongoose";
 import { describe, test, expect, beforeAll, afterAll } from "@jest/globals";
 
+//테스트 순서를 바꿀 경우 제대로 작동하지 않습니다. 테스트 간 의존성 때문입니다.
 describe("test", () => {
   let app: any;
   let token: string;

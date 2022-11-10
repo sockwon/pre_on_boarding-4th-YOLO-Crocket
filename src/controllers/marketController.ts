@@ -2,8 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import marketService from "../services/marketService";
-import { Request, Response, NextFunction } from "express";
-import { Market, getListInput } from "../interfaces/IMarket";
+import { Request, Response } from "express";
 
 const marektCreateControll = async (req: Request, res: Response) => {
   const { nation, product_id } = req.body;
@@ -20,12 +19,13 @@ const getProductControll = async (req: Request, res: Response) => {
 };
 
 const getListControll = async (req: Request, res: Response) => {
-  const { inputText, category, nation } = req.query;
+  const { inputText, category, nation, sortType } = req.query;
 
   const data = {
     inputText: JSON.stringify(inputText),
     category: JSON.stringify(category),
     nation: JSON.stringify(nation),
+    sortType: JSON.stringify(sortType),
   };
 
   const result = await marketService.getList(data);

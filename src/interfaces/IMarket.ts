@@ -7,4 +7,5 @@ export interface getListInput {
   category: string;
   nation: string;
   inputText: string;
+  sortType: string;
 }

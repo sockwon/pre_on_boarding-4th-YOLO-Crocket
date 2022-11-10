@@ -1,10 +1,9 @@
-import User from "../models/User";
 import { UserInputDTO, UserLogIn } from "../interfaces/IUser";
 import { passwordToHash, isRightPassword } from "../middlewares/password";
 import { erorrGenerator } from "../middlewares/errorGenerator";
 import tokenFn from "../middlewares/token";
 import userDao from "../models/userDao";
-import Joi, { object } from "joi";
+import Joi from "joi";
 
 const schemaSignUp = Joi.object({
   email: Joi.string()
@@ -44,7 +43,7 @@ const logIn = async (input: UserLogIn) => {
   const user = await userDao.findUserDao(input.email);
 
   if (user === null) {
-    erorrGenerator(400, "등록되지 않은 사용자");
+    erorrGenerator(401, "등록되지 않은 사용자");
   } else {
     const isUser = await isRightPassword(input.password, user.password);
 
