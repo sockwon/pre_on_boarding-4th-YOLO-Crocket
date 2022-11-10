@@ -1,3 +1,7 @@
+/**
+ * Module dependencies.
+ */
+
 import { UserInputDTO, UserLogIn } from "../interfaces/IUser";
 import { passwordToHash, isRightPassword } from "../middlewares/password";
 import { erorrGenerator } from "../middlewares/errorGenerator";
@@ -5,6 +9,7 @@ import tokenFn from "../middlewares/token";
 import userDao from "../models/userDao";
 import Joi from "joi";
 
+//signup validation 스키마 셋팅
 const schemaSignUp = Joi.object({
   email: Joi.string()
     .email({ tlds: { allow: true } })
@@ -22,12 +27,15 @@ const schemaSignUp = Joi.object({
   name: Joi.string().required(),
 });
 
+//login validation 스키마 셋팅
 const schemaLogin = Joi.object({
   email: Joi.string().required(),
   password: Joi.string().required(),
 });
 
+//회원가입
 const createUser = async (input: UserInputDTO) => {
+  //회원가입 validation
   await schemaSignUp.validateAsync(input);
 
   //패스워드 암호화
@@ -37,7 +45,9 @@ const createUser = async (input: UserInputDTO) => {
   return result;
 };
 
+//로그인
 const logIn = async (input: UserLogIn) => {
+  //로그인 validation
   await schemaLogin.validateAsync(input);
 
   const user = await userDao.findUserDao(input.email);
@@ -53,5 +63,10 @@ const logIn = async (input: UserLogIn) => {
     return tokenFn.createToken(user);
   }
 };
+
+/**
+ * Module exports.
+ * @public
+ */
 
 export default { createUser, logIn };

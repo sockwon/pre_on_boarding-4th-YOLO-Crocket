@@ -1,3 +1,6 @@
+/**
+ * Module dependencies.
+ */
 import User from "../models/User";
 import { UserInputDTO } from "../interfaces/IUser";
 
@@ -11,4 +14,8 @@ const findUserDao = async (inputEmail: string) => {
   return result;
 };
 
+/**
+ * Module exports.
+ * @public
+ */
 export default { createUserDao, findUserDao };

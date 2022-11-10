@@ -1,3 +1,6 @@
+/**
+ * Module dependencies.
+ */
 import { Seller } from "../interfaces/ISeller";
 import { Product, ProductUpdate } from "../interfaces/IProduct";
 import Market from "../models/Market";
@@ -49,6 +52,10 @@ const softDeleteProductDao = async (productId: string) => {
   return result;
 };
 
+/**
+ * Module exports.
+ * @public
+ */
 export default {
   createSellerDao,
   createProductDao,
