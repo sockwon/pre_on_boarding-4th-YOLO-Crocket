@@ -13,4 +13,8 @@ const createMarketDao = async (data: Market) => {
   return market;
 };
 
-export default { createMarketDao };
+const getProductDao = async (productId: string) => {
+  return await ProductModel.findOne({ _id: productId, isdelete: false }).exec();
+};
+
+export default { createMarketDao, getProductDao };
