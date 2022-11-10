@@ -25,6 +25,17 @@ const schemaProduct = Joi.object({
   userId: Joi.string().required(),
 });
 
+const schemaUpdate = Joi.object({
+  data: Joi.object().required(),
+  productId: Joi.string().required(),
+  userId: Joi.string().required(),
+});
+
+const schemaSoftDelete = Joi.object({
+  productId: Joi.string().required(),
+  userId: Joi.string().required(),
+});
+
 const createSeller = async (data: Seller, user: IVeryfied) => {
   await schemaSeller.validateAsync(data);
 
@@ -55,6 +66,7 @@ const updateProduct = async (
   productId: string,
   userId: string
 ) => {
+  await schemaUpdate.validateAsync({ data, productId, userId });
   const product = await sellerDao.findProductByProductId(productId);
   const seller = await sellerDao.findSellerByUserId(userId);
 
@@ -69,4 +81,26 @@ const updateProduct = async (
   return result;
 };
 
-export default { createSeller, createProduct, updateProduct };
+const softDeleteProduct = async (productId: string, userId: string) => {
+  await schemaSoftDelete.validateAsync({ productId, userId });
+
+  const product = await sellerDao.findProductByProductId(productId);
+  const seller = await sellerDao.findSellerByUserId(userId);
+
+  if (!product) {
+    erorrGenerator(400, "없는 상품입니다");
+  }
+
+  if (JSON.stringify(product?.sellerId) !== JSON.stringify(seller?._id)) {
+    erorrGenerator(401);
+  }
+
+  return await sellerDao.softDeleteProductDao(productId);
+};
+
+export default {
+  createSeller,
+  createProduct,
+  updateProduct,
+  softDeleteProduct,
+};

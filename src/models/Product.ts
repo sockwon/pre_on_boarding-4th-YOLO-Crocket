@@ -10,6 +10,7 @@ const productSchema = new mongoose.Schema(
     description: { type: String, required: false },
     order_deadline: { type: String, required: true },
     nation: { type: String, required: true },
+    isdelete: { type: Boolean, required: true, default: false },
   },
   {
     timestamps: {

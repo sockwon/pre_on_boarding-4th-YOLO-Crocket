@@ -78,8 +78,17 @@ const updateProductControll = async (req: Request, res: Response) => {
   res.status(201).json({ massege: "success" });
 };
 
+const softDeleteControll = async (req: Request, res: Response) => {
+  const { productId } = req.params;
+  const { id } = req.body.user;
+  await sellerService.softDeleteProduct(productId, id);
+
+  res.status(204).end();
+};
+
 export default {
   sellerCreateControll,
   productCreateControll,
   updateProductControll,
+  softDeleteControll,
 };

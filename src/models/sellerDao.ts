@@ -38,7 +38,18 @@ const createProductDao = async (data: Product) => {
 };
 
 const updateProductDao = async (data: ProductUpdate, productId: string) => {
-  const result = await ProductModel.updateOne({ _id: productId }, data);
+  const result = await ProductModel.updateOne(
+    { _id: productId, isdelete: false },
+    data
+  );
+  return result;
+};
+
+const softDeleteProductDao = async (productId: string) => {
+  const result = await ProductModel.updateOne(
+    { _id: productId, isdelete: false },
+    { isdelete: true }
+  );
   return result;
 };
 
@@ -49,4 +60,5 @@ export default {
   updateMarket,
   updateProductDao,
   findProductByProductId,
+  softDeleteProductDao,
 };
