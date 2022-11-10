@@ -56,6 +56,8 @@ const createProduct = async (data: ProductCreate) => {
   data.sellerId = value?._id;
   const product = await sellerDao.createProductDao(data);
 
+  console.log("value:", value, "product:", product);
+
   const market = await sellerDao.updateMarket(product.nation, product._id);
 
   return market;

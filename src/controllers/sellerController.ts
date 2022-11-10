@@ -45,7 +45,7 @@ const productCreateControll = async (req: Request, res: Response) => {
   const result = await sellerService.createProduct(data);
 
   if (result.modifiedCount) {
-    res.status(201).json({ message: "success" });
+    res.status(201).json({ result, message: "success" });
   } else {
     erorrGenerator(500);
   }

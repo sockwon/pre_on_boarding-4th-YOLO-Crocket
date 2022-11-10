@@ -9,7 +9,10 @@ router.get(
   errorHandlerAsync(marketController.getProductControll)
 );
 
-router.post("/", errorHandlerAsync(marketController.marektCreateControll));
+router.post(
+  "/nation",
+  errorHandlerAsync(marketController.marektCreateControll)
+);
 
 router.get("/list", errorHandlerAsync(marketController.getListControll));
 
