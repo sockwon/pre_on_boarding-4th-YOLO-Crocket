@@ -92,11 +92,10 @@ describe("test", () => {
   test("상품 리스트 조회: 성공", async () => {
     const result = await request(app)
       .get("/api/v1/market/list")
-      .query({ inputText: "청바지" });
-
+      .query({ inputText: "청바지", page: 1 });
+    console.log(result.body);
     let a = result.body.result[0];
     productId = a._id;
-    sellerId = a.sellerId;
     expect(result.status).toBe(200);
     expect(a.nation).toBe("미국");
   });
