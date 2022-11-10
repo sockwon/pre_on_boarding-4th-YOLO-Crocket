@@ -1,11 +1,17 @@
 import marketDao from "../models/marketDao";
-import { Market } from "../interfaces/IMarket";
+import { Market, getListInput } from "../interfaces/IMarket";
 import { erorrGenerator } from "../middlewares/errorGenerator";
 import { Product } from "../interfaces/IProduct";
 import Joi from "joi";
 
 const schemaGetProduct = Joi.object({
   productId: Joi.string().required(),
+});
+
+const schemaGetList = Joi.object({
+  category: Joi.string(),
+  nation: Joi.string(),
+  inputText: Joi.string(),
 });
 
 const createMarket = async (data: Market) => {
@@ -19,4 +25,10 @@ const getProduct = async (productId: string) => {
   return result;
 };
 
-export default { createMarket, getProduct };
+const getList = async (data: getListInput) => {
+  await schemaGetList.validateAsync(data);
+
+  return await marketDao.getListDao(data);
+};
+
+export default { createMarket, getProduct, getList };
